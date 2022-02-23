@@ -1,7 +1,4 @@
-const Vehicle = require('../model/Vehicle');
-const axios = require('axios');
-
-const formattedDate = require('../middleware/formattedDate');
+const formattedDate = require('../util/formattedDate');
 
 const { MongoClient } = require('mongodb');
 
@@ -34,6 +31,7 @@ module.exports = {
     try {
       const dataArr = await run().catch(console.dir);
       console.log(dataArr.length);
+      console.log(formattedDate(new Date()));
       res.status(200).json(dataArr);
     } catch (error) {
       console.log(error);

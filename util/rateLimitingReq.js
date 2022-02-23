@@ -6,9 +6,6 @@ const formattedDate = require('./formattedDate');
 async function rateLimitingRequests(params) {
   try {
     let startOfFetch = Date.now();
-
-    // await newCollection();
-
     let results = [];
     while (params.length > 0) {
       let batch = [];
@@ -20,26 +17,17 @@ async function rateLimitingRequests(params) {
       }
       let resultsBatch = await Promise.all(batch);
       results = results.concat(resultsBatch);
-      // console.log(resultsBatch);
 
       // Database
 
       await newCollection(formattedDate(new Date()), resultsBatch);
-      // resultsBatch.forEach((result) => {
-      //   Vehicle.create({ vehicleMakesAndTypes: result });
-      // });
-      // await Vehicle.findByIdAndUpdate(newVehicleData._id, {
-      //   $push: { vehicleMakesAndTypes: { $each: resultsBatch } },
-      // });
+
       let endTime = Date.now();
       let timeElapsed = endTime - startTime;
       console.log(
         `Fetched ${results.length} records in ${timeElapsed / 1000}s`
       );
       if (timeElapsed < 5000) {
-        // console.log(
-        //   `Fetched ${results.length} records in ${timeElapsed / 1000}s`
-        // );
         await delay(5000 - timeElapsed);
       }
     }
